@@ -1,0 +1,47 @@
+Steps to setup the application:
+
+1. Go inside the project's root directory
+
+2. Its better to run the python applications in virtual environment. For this, to create a virtual environment run: 	 	 python3 -m venv venv. (Application is tested in python 3.6)
+
+3. Activate virtual environment, run:
+	source venv/bin/activate
+
+4. To install the required dependencies, run 
+	pip install -r requirements.txt
+
+5. Go inside the settings.py of oauth file and inside DATABASES configure database of your choice.To configure postgres:
+	run: psql
+		create database database_name;
+	Change the DATABASES info accordingly
+
+6. 	Run: python manage.py makemigrations	 
+
+7.  Run: python manage.py migrate
+
+8.  Run: python manage.py runserver
+
+9.  Visit http://127.0.0.1:8000/users and register users by clicking in Register button in navbar
+
+10. Click on Login button to login with the registered credentials.
+
+11. Click on Register/Edit to register client application credentials
+
+12. To generate access token, click Token and it will open a page where you can choose one of your created applications. Enter the username and password of created user credentials.
+
+12. Click on Generate Token to generate access token and other info
+
+13. There is email settings at the end of settings.py in oauth, change it according to your email server setup
+
+16. Run a celery worker to run scheduled tasks by:
+	celery worker -A oauth --loglevel=info
+
+
+14. Using the obtained access_token you can run following api calls:
+	To run scheduled tasks: curl -H "Authorization: Bearer {access_token}" http://127.0.0.1:8000/api/email/run_schedules/ 
+	To get all scheduled tasks: curl -H "Authorization: Bearer e3asi89cCEsPkBtwAkWo1WroTohUqF" http://127.0.0.1:8000/api/email/schedules/ 
+	To create scheduled tasks: curl -H "Authorization: Bearer e3asi89cCEsPkBtwAkWo1WroTohUqF" -X POST -d"subject=txt&message=txt&email=txt" http://127.0.0.1:8000/api/email/schedules/ 
+	To check completion of scheduled tasks: curl -H "Authorization: Bearer {access_token}" http://127.0.0.1:8000/api/email/check/ 
+
+15. There should be redis server on your local machine
+

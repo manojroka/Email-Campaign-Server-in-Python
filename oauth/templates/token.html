@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block body_block %}
+	
+	<form action="{% url 'userApp:gen_token' %}" method="POST">
+		{% csrf_token %}
+		<h3>Fill out the form for generating access token<small> Pass username and password of the signed in user</small></h3>
+		<div class="row">
+
+			
+			<div class="form-group col-md-8 text-center">
+
+			<label>Select application name</label>
+		<select id="appName" name="appName">
+			{% for i in data %}			
+			<option value="{{i.name}}">{{i.name}} </option>
+			{% endfor %}
+		</select>
+		<input type="text" name="username" placeholder="enter user name" />
+		<input type="password" name="password" placeholder="enter user password" />
+		</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-md-6 text-center">
+		<button type="submit" class="text-center">Generate Token</button>
+		</div>
+		</div>
+	</form>
+
+	
+	{% if access_data %}
+
+	<div class="text-align-left">	
+		<h3>Oauth Details</h3>
+		<ul>
+			<li>Access Token: {{access_data.access_token}} </li>
+			<li>Expires in: {{access_data.expires_in}} </li>
+			<li>Token Type: {{access_data.token_type}} </li>
+			<li>Scope: {{access_data.scope}} </li>
+			<li>Refresh Token: {{access_data.refresh_token}} </li>
+		</ul>
+	
+	
+	</div>
+	{% endif %}
+
+{% endblock %}

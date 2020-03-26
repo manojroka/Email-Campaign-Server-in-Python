@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block body_block %}
+<div class="container">
+  <div class="jumbotron">
+    <h1>Welcome to the Oauth!</h1>
+    {% if user.is_authenticated %}
+        <h2>Hello {{ user.username }}</h2>
+    {% else %}
+        <h2>Register or Login if you'd like to</h2>
+    {% endif %}
+  </div>
+
+  {% if user.is_authenticated %}
+  <div id="container">
+  	<h3>Register/Edit your client application </br></h3><span><a href="{% url 'userApp:reg_app' %}">Register/Edit</a></span>
+  </div>
+  {% if data %}
+  <div>
+
+    <h3>Your credentials</h3>
+ 
+    {% for d in data %}
+
+    <h4>Application Name: {{d.name}}</h4>
+    <div>
+      <li>Application Client id:{{d.client_id}}</li>
+      <li>Application Client Secret{{d.client_secret}}</li>
+      <li>Application Client Type: {{d.client_type}}</li>
+      <li>Application Grant Type: {{d.authorization_grant_type}}</li>
+      
+    </div>
+    
+
+    {% endfor %}
+  </div>
+
+ <span><h3>To Generate Token, Click here</h3><a href="{% url 'userApp:gen_token' %}">Token</a></span> 
+  {% endif %}
+  {% endif %}  
+    
+{% endblock %}
